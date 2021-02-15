@@ -18,7 +18,7 @@ public class Main {
       stack.push(12);
       stack.pop();
       stack.pop();
-      stack.pop();
+      stack.pop(); //
       stack.pop();
       stack.pop();
       stack.pop();
