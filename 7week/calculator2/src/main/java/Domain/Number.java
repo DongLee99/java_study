@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Number {
     private static final BigDecimal ZERO = new BigDecimal(0);
     private BigDecimal value;
-    private ArrayList<String> Numbers = new ArrayList<String>();
 
     public Number(String value) {
         validateNumber(value);
@@ -29,9 +28,9 @@ public class Number {
     private BigDecimal stringToBigDecimal (String value) {
         return new BigDecimal(value);
     }
+
     public BigDecimal getValue() {
         return value;
     }
-
 
 }
