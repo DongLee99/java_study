@@ -1,61 +1,37 @@
 package service;
 
 import domain.Car;
+import domain.Cars;
+
 import utils.Input;
-import utils.Sort;
 import utils.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingCarGameController {
     private final static int ZERO = 0;
-    protected final List<Car> cars = new ArrayList<>();
-    private final List<Car> winner = new ArrayList<>();
-    protected int count;
-    private int maxPosition = 0;
+    private int times;
 
-    public void carSetting() {
-        View.introView();
+    public Cars createCar() {
         String [] carNames = Input.stringInput();
-        Arrays.stream(carNames)
-                .forEach(carName -> cars.add(new Car(carName)));
+        return new Cars(Arrays.stream(carNames)
+                .map(carName -> new Car(carName))
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
 
-    public void countSetting() {
-        View.countView();
-        count = Input.intInput();
+    public void setTimes() {
+        times = Input.intInput();
     }
 
-    public void findMaxPosition(List<Car> sortedcars) {
-        this.maxPosition = sortedcars.get(ZERO).getPosition();
-    }
-
-    public void findWinner(List<Car> cars) {
-        List<Car> sortedCars = Sort.sortList(cars);
-        findMaxPosition(sortedCars);
-        for (Car car : sortedCars) {
-            if (maxPosition == car.getPosition()) {
-                winner.add(car);
-            }
-        }
-        View.resultView(winner);
-    }
-
-    public void run(int count, List<Car> cars) {
-        View.runView();
-        for (int times = ZERO; times < count; times++){
-            carStatus(cars);
+    public void run(Cars cars) {
+        setTimes();
+        for (int time = ZERO; time < times; time++){
+            cars.moveCars();
             System.out.println();
         }
-    }
-
-    private void carStatus(List<Car> cars) {
-        for (Car car : cars) {
-            car.movePosition();
-            View.carStatusView(car);
-        }
+        View.resultView(cars.getWinner());
     }
 
 }
