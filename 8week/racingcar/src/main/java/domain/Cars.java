@@ -3,7 +3,6 @@ package domain;
 import utils.View;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +11,18 @@ public class Cars {
     private final List<Car> cars;
 
     public Cars (List<Car> cars) {
+        validateCars(cars);
         this.cars = new ArrayList<>(cars);
+    }
+
+    private void validateCars(List<Car> cars) {
+        Boolean value = (int) cars.stream()
+                .map(car -> car.getName())
+                .distinct()
+                .count() != cars.size();
+        if (value == true) {
+            throw new IllegalArgumentException("[ERROR] 이름 중복");
+        }
     }
 
     public List<Car> getCars() {
