@@ -3,21 +3,23 @@ package domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Cars {
     private final List<Car> cars;
 
-    public Cars (List<Car> cars) {
-        validateCars(cars);
-        this.cars = new ArrayList<>(cars);
+    public Cars (List<String> carNames) {
+        validateCars(carNames);
+        this.cars = carNames.stream()
+                .map(carName->new Car(carName))
+                .collect(Collectors.toList());
     }
 
-    private void validateCars(List<Car> cars) {
-        Boolean value = (int) cars.stream()
-                .map(car -> car.getName())
+    private void validateCars(List<String> carNames) {
+        Boolean value = (int) carNames.stream()
                 .distinct()
-                .count() != cars.size();
+                .count() != carNames.size();
         if (value) {
             throw new IllegalArgumentException("[ERROR] 이름 중복");
         }
@@ -29,20 +31,18 @@ public class Cars {
 
     public void moveCars() {
         cars.stream()
-                .forEachOrdered(Car::movePosition);
+                .forEach(Car::movePosition);
     }
 
-    public int findMaxPosition() {
-        int maxPostion = cars.stream()
-            .mapToInt(Car::getPosition)
-            .max()
-            .getAsInt();
-        return maxPostion;
+    private Car findMaxPosition() {
+        return cars.stream()
+                .max(Car::compareTo)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 차량 리스트가 비었습니다."));
     }
 
     public List<Car> getWinner() {
         return cars.stream()
-                .filter(car -> car.getPosition() == findMaxPosition())
+                .filter(car -> car.isSamePosition(findMaxPosition()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }
