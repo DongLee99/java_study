@@ -1,7 +1,5 @@
 package domain;
 
-import utils.View;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +18,7 @@ public class Cars {
                 .map(car -> car.getName())
                 .distinct()
                 .count() != cars.size();
-        if (value == true) {
+        if (value) {
             throw new IllegalArgumentException("[ERROR] 이름 중복");
         }
     }
