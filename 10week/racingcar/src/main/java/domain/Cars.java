@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 
 public class Cars {
-    private static final int START_NUMBER = 0;
-    private static final int FINISH_NUMBER = 10;
     private final List<Car> cars;
 
     public Cars (List<String> carNames) {
@@ -30,15 +28,15 @@ public class Cars {
         return Collections.unmodifiableList(this.cars);
     }
 
-    public void moveCars() {
+    public void moveCars(int START_NUMBER, int FINISH_NUMBER) {
         cars.forEach(Car-> Car.movePosition(RandomUtils.randomIntGenerator(START_NUMBER, FINISH_NUMBER)));
     }
 
     private void validateCars(List<String> carNames) {
-        Boolean value = (int) carNames.stream()
+        Boolean distinctCheck = (int) carNames.stream()
                 .distinct()
                 .count() != carNames.size();
-        if (value) {
+        if (distinctCheck) {
             throw new IllegalArgumentException("[ERROR] 이름 중복");
         }
     }

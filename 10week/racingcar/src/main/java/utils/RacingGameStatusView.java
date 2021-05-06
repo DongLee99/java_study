@@ -1,17 +1,18 @@
 package utils;
 
 import domain.Car;
+import domain.Cars;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class View {
+public class RacingGameStatusView {
     private static final String FINAL_WINNER = "최종 우승자 : ";
     private static final String COLON = " : ";
     private static final String COMMA = ", ";
     private static final String POSITION_VIEW = "-";
 
-    private View() {};
+    private RacingGameStatusView() {};
 
     public static void distanceView(int position) {
         while (position-- > 0){
@@ -32,9 +33,13 @@ public class View {
         System.out.println(winner);
     }
 
-    public static void carStatusView(Car car) {
-        View.carNameView(car.getName());
-        View.distanceView(car.getPosition());
+    public static void carStatusView(Cars cars) {
+        cars.getCars()
+                .stream()
+                .forEach(car -> {
+                        RacingGameStatusView.carNameView(car.getName());
+                        RacingGameStatusView.distanceView(car.getPosition());
+                });
     }
 
     public static void spacingWord() {

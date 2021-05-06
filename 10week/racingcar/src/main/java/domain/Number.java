@@ -8,15 +8,15 @@ public class Number {
         this.value = Integer.parseInt(value);
     }
 
+    public int getCount() {
+        return value;
+    }
+
     private void validateNumber(String value) {
         try {
             Integer.parseInt(value);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 시도 횟수는 숫자여야 한다.");
         }
-    }
-
-    public int getCount() {
-        return value;
     }
 }

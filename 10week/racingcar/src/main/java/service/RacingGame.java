@@ -2,9 +2,11 @@ package service;
 
 import domain.Cars;
 import domain.Number;
-import utils.View;
+import utils.RacingGameStatusView;
 
 public class RacingGame {
+    private static final int START_NUMBER = 0;
+    private static final int FINISH_NUMBER = 10;
 
     private RacingGame() {};
 
@@ -13,12 +15,10 @@ public class RacingGame {
         Number count = RacingGameController.createCount();
         int times = count.getCount();
         while (times-- > 0) {
-            cars.moveCars();
-            cars.getCars()
-                    .stream()
-                    .forEach(View::carStatusView);
-            View.spacingWord();
+            cars.moveCars(START_NUMBER, FINISH_NUMBER);
+            RacingGameStatusView.carStatusView(cars);
+            RacingGameStatusView.spacingWord();
         }
-        View.resultView(cars.getWinner());
+        RacingGameStatusView.resultView(cars.getWinner());
     }
 }
